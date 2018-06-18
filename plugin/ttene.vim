@@ -6,7 +6,7 @@ endif
 let g:loaded_ttenesana = 1
 
 if has('mac')
-  let g:command = 'afplayer'
+  let g:command = 'afplay'
 endif
 if has('unix')
   let g:command = 'mplayer'
