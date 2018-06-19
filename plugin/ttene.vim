@@ -1,9 +1,9 @@
 scriptencoding utf-8
-if exists('g:loaded_ttenesana')
+if exists('g:loaded_ttene')
   finish
 endif
 
-let g:loaded_ttenesana = 1
+let g:loaded_ttene = 1
 
 if executable('mplayer')
   let g:ttene_play_command = 'mplayer'
