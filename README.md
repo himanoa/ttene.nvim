@@ -5,7 +5,6 @@
 - asyncrun.vim(https://github.com/skywind3000/asyncrun.vim)
 - mplayer or afplay
 - magicalstick(https://github.com/himanoa/magicalstick)
-- coreutils(Mac)( `brew install coreutils` )
 
 ## インストール(dein)
 

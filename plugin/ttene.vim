@@ -15,20 +15,37 @@ if !exists('g:ttene_play_command') || !executable(g:ttene_play_command)
   endif
 endif
 
-if !exists('g:ttene_shuf') || !executable(g:ttene_shuf)
-  if executable('shuf')
-    let g:ttene_shuf = 'shuf'
-  elseif executable('gshuf')
-    let g:ttene_shuf = 'gshuf'
-  else
-    finish
-  endif
-endif
-
-let s:voices = expand('<sfile>:p:h') . '/../voices'
+let s:voices_dir = expand('<sfile>:p:h') . '/../voices'
 
 function! s:play() abort
-  execute 'AsyncRun find ' . s:voices . ' | ' . g:ttene_shuf . '| head -n1 | xargs -In1 ' . g:ttene_play_command . ' n1'
+  let voice = s:pick_voice()
+  if empty(voice)
+    call s:error('no voices installed. see README.md')
+    sleep 1
+    return
+  endif
+  if exists(':AsyncRun') isnot 2
+    call s:error('you need to install https://github.com/skywind3000/asyncrun.vim')
+    sleep 1
+    return
+  endif
+  execute 'AsyncRun' g:ttene_play_command voice
+endfunction
+
+function! s:error(msg) abort
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+endfunction
+
+function! s:pick_voice() abort
+  let voices = glob(s:voices_dir . '/*', 1, 1)
+  if empty(voices)
+    return ''
+  endif
+  let match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
+  let i = reltimestr(reltime())[l:match_end : ] % len(voices)
+  return voices[i]
 endfunction
 
 function! s:prepare_mappings() abort
