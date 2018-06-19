@@ -32,4 +32,7 @@ function! s:prepare_mappings() abort
   inoremap <buffer> <CR> <ESC>:<C-u>call <SID>on_enter()<CR>
 endfunction
 
-autocmd InsertEnter * call s:prepare_mappings()
+augroup ttene
+  autocmd!
+  autocmd InsertEnter * call s:prepare_mappings()
+augroup END
