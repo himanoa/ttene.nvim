@@ -33,6 +33,10 @@ endfunction
 
 function! s:prepare_mappings() abort
   inoremap <buffer> <CR> <C-o>:<C-u>call <SID>play()<CR><CR>
+  augroup ttene-local
+    autocmd!
+    autocmd InsertLeave <buffer> call s:play()
+  augroup END
 endfunction
 
 augroup ttene
