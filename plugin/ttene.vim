@@ -5,20 +5,24 @@ endif
 
 let g:loaded_ttene = 1
 
-if executable('mplayer')
-  let g:ttene_play_command = 'mplayer'
-elseif executable('afplay')
-  let g:ttene_play_command = 'afplay'
-else
-  finish
+if !exists('g:ttene_play_command') || !executable(g:ttene_play_command)
+  if executable('mplayer')
+    let g:ttene_play_command = 'mplayer'
+  elseif executable('afplay')
+    let g:ttene_play_command = 'afplay'
+  else
+    finish
+  endif
 endif
 
-if executable('shuf')
-  let g:ttene_shuf = 'shuf'
-elseif executable('gshuf')
-  let g:ttene_shuf = 'gshuf'
-else
-  finish
+if !exists('g:ttene_shuf') || !executable(g:ttene_shuf)
+  if executable('shuf')
+    let g:ttene_shuf = 'shuf'
+  elseif executable('gshuf')
+    let g:ttene_shuf = 'gshuf'
+  else
+    finish
+  endif
 endif
 
 let s:voices = expand('<sfile>:p:h') . '/../voices'
