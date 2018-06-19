@@ -43,6 +43,8 @@ function! s:pick_voice() abort
   if empty(voices)
     return ''
   endif
+  " 0 から len(voices) - 1 までの疑似乱数 (整数) を生成する
+  " http://vim-jp.org/vim-users-jp/2009/11/05/Hack-98.html
   let match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
   let i = reltimestr(reltime())[l:match_end : ] % len(voices)
   return voices[i]
