@@ -21,6 +21,11 @@ else
   finish
 endif
 
-let g:voices = expand('<sfile>:p:h') . '/../voices'
-let g:on_enter = ":AsyncRun find " . g:voices . " | " . g:ttene_shuf . "| head -n1 | xargs -In1 " . g:ttene_play_command . " n1"
-autocmd InsertEnter * imap <script> <CR> <ESC>:<C-u>execute g:on_enter<CR>a<CR>
+let s:voices = expand('<sfile>:p:h') . '/../voices'
+
+function! s:on_enter() abort
+  execute 'AsyncRun find ' . s:voices . ' | ' . g:ttene_shuf . '| head -n1 | xargs -In1 ' . g:ttene_play_command . ' n1'
+  execute "normal! \<CR>"
+endfunction
+
+autocmd InsertEnter * inoremap <CR> <ESC>:<C-u>call <SID>on_enter()<CR>
