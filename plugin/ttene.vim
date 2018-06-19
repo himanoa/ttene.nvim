@@ -1,26 +1,64 @@
 scriptencoding utf-8
-if exists('g:loaded_ttenesana')
+if exists('g:loaded_ttene')
   finish
 endif
 
-let g:loaded_ttenesana = 1
+let g:loaded_ttene = 1
 
-if executable('mplayer')
-  let g:play_command = 'mplayer'
-elseif executable('afplay')
-  let g:play_command = 'afplay'
-else
-  finish
+if !exists('g:ttene_play_command') || !executable(g:ttene_play_command)
+  if executable('mplayer')
+    let g:ttene_play_command = 'mplayer'
+  elseif executable('afplay')
+    let g:ttene_play_command = 'afplay'
+  else
+    finish
+  endif
 endif
 
-if executable('shuf')
-  let g:shuf = 'shuf'
-elseif executable('gshuf')
-  let g:shuf = 'gshuf'
-else
-  finish
-endif
+let s:voices_dir = expand('<sfile>:p:h') . '/../voices'
 
-let g:voices = expand('<sfile>:p:h') . '/../voices'
-let g:on_enter = ":AsyncRun find " . g:voices . " | " . g:shuf . "| head -n1 | xargs -In1 " . g:play_command . " n1"
-autocmd InsertEnter * imap <script> <CR> <ESC>:<C-u>execute g:on_enter<CR>a<CR>
+function! s:play() abort
+  let voice = s:pick_voice()
+  if empty(voice)
+    call s:error('no voices installed. see README.md')
+    sleep 1
+    return
+  endif
+  if exists(':AsyncRun') isnot 2
+    call s:error('you need to install https://github.com/skywind3000/asyncrun.vim')
+    sleep 1
+    return
+  endif
+  execute 'AsyncRun' g:ttene_play_command voice
+endfunction
+
+function! s:error(msg) abort
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+endfunction
+
+function! s:pick_voice() abort
+  let voices = glob(s:voices_dir . '/*', 1, 1)
+  if empty(voices)
+    return ''
+  endif
+  " 0 から len(voices) - 1 までの疑似乱数 (整数) を生成する
+  " http://vim-jp.org/vim-users-jp/2009/11/05/Hack-98.html
+  let match_end = matchend(reltimestr(reltime()), '\d\+\.') + 1
+  let i = reltimestr(reltime())[l:match_end : ] % len(voices)
+  return voices[i]
+endfunction
+
+function! s:prepare_mappings() abort
+  inoremap <buffer> <CR> <C-o>:<C-u>call <SID>play()<CR><CR>
+  augroup ttene-local
+    autocmd!
+    autocmd InsertLeave <buffer> call s:play()
+  augroup END
+endfunction
+
+augroup ttene
+  autocmd!
+  autocmd InsertEnter * call s:prepare_mappings()
+augroup END
