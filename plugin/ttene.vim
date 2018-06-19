@@ -15,5 +15,5 @@ if has('unix')
 endif
 
 let g:voices = expand('<sfile>:p:h') . '/../voices'
-let g:onEnter = ":AsyncRun find " . g:voices . " | " . g:shuf . "| head -n1 | xargs -In1 " . g:play_command . " n1"
-autocmd InsertEnter * imap <script> <CR> <ESC>:<C-u>execute g:onEnter<CR>a<CR>
+let g:on_enter = ":AsyncRun find " . g:voices . " | " . g:shuf . "| head -n1 | xargs -In1 " . g:play_command . " n1"
+autocmd InsertEnter * imap <script> <CR> <ESC>:<C-u>execute g:on_enter<CR>a<CR>
