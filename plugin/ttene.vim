@@ -29,11 +29,10 @@ let s:voices = expand('<sfile>:p:h') . '/../voices'
 
 function! s:on_enter() abort
   execute 'AsyncRun find ' . s:voices . ' | ' . g:ttene_shuf . '| head -n1 | xargs -In1 ' . g:ttene_play_command . ' n1'
-  execute "normal! \<CR>"
 endfunction
 
 function! s:prepare_mappings() abort
-  inoremap <buffer> <CR> <ESC>:<C-u>call <SID>on_enter()<CR>
+  inoremap <buffer> <CR> <C-o>:<C-u>call <SID>on_enter()<CR><CR>
 endfunction
 
 augroup ttene
