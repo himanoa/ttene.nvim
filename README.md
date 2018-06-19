@@ -15,5 +15,7 @@ repo = "skywind3000/asyncrun.vim"
 
 [[plugins]]
 repo = "himanoa/ttene.nvim"
-build = 'magicalstick | grep てねっ[0-9] | xargs -P4 -In1 wget n1 -P voices/'
+hook_post_update = '''
+  let g:dein#plugin.build = 'magicalstick | grep てねっ[0-9] | xargs -P4 -In1 wget n1 -P voices/'
+'''
 ```
