@@ -28,4 +28,8 @@ function! s:on_enter() abort
   execute "normal! \<CR>"
 endfunction
 
-autocmd InsertEnter * inoremap <CR> <ESC>:<C-u>call <SID>on_enter()<CR>
+function! s:prepare_mappings() abort
+  inoremap <buffer> <CR> <ESC>:<C-u>call <SID>on_enter()<CR>
+endfunction
+
+autocmd InsertEnter * call s:prepare_mappings()
