@@ -5,13 +5,20 @@ endif
 
 let g:loaded_ttenesana = 1
 
-if has('unix')
+if executable('mplayer')
   let g:play_command = 'mplayer'
-  let g:shuf = 'shuf'
-endif
-if has('mac')
+elseif executable('afplay')
   let g:play_command = 'afplay'
+else
+  finish
+endif
+
+if executable('shuf')
+  let g:shuf = 'shuf'
+elseif executable('gshuf')
   let g:shuf = 'gshuf'
+else
+  finish
 endif
 
 let g:voices = expand('<sfile>:p:h') . '/../voices'
