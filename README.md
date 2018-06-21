@@ -24,3 +24,4 @@ hook_post_update = '''
 ## Porting
 
 - Emacs [shibafu528/ttene-mode](https://github.com/shibafu528/ttene-mode)
+- Zsh [atnanasi/ttene.zsh](https://github.com/atnanasi/ttene.zsh)
