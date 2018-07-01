@@ -25,3 +25,4 @@ hook_post_update = '''
 
 - Emacs [shibafu528/ttene-mode](https://github.com/shibafu528/ttene-mode)
 - Zsh [atnanasi/ttene.zsh](https://github.com/atnanasi/ttene.zsh)
+- Atom [ueken0307/natorisana-voice](https://github.com/ueken0307/natorisana-voice)
