@@ -12,7 +12,7 @@
 ```lazy.nvim
 require("lazy").setup({
   {
-    "orumin/ttene.nvim",
+    "himanoa/ttene.nvim",
     lazy = true,
     events = VeryLazy,
     cond = true,
@@ -36,7 +36,7 @@ require("lazy").setup({
 ```lazy.nvim
 require("lazy").setup({
   {
-    "orumin/ttene.nvim",
+    "himanoa/ttene.nvim",
     lazy = true,
     events = "InsertEnter",
     opts = {
